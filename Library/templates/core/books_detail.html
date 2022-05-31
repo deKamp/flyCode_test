@@ -1,0 +1,68 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+<div id="app">
+    <div class="row book-detail">
+        <div class="col s2">Наименование:</div>
+        <div class="col s10"><b>{{ object.title }}</b></div>
+    </div>
+    {% if object.year %}
+        <div class="row book-detail">
+            <div class="col s2">Год выхода:</div>
+            <div class="col s10">{{ object.year }}</div>
+        </div>
+    {% endif %}
+    {% if authors %}
+        <div class="row book-detail">
+            <div class="col s2">Авторы:</div>
+            <div class="col s10">
+                {% for author in authors %}
+                    <div>{{ author.surname }} {{ author.name }} {{ author.patronymic }}</div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Комментарии -->
+    <div v-if="Comments.length > 0" class="comments">
+        Комментарии к книге:
+        <div v-for="comment in Comments" :key="comment.id" class="row comment">
+            <div class="col s2">[[ dateFilter(comment.time_creation) ]]</div>
+            <div class="col s10">[[ comment.content ]]</div>
+        </div>
+    </div>
+    <!-- Конец комментариев -->
+
+    <!-- Добавление комментария -->
+    <div class="row add-comment">
+        <div class="col s3"> 
+            Добавить комментарий:
+        </div>
+        <div class="col s8"> 
+            <textarea type="text" 
+                class="materialize-textarea" 
+                v-model="addCommentText"
+                row="2"> 
+            </textarea>
+        </div>
+        <div class="col s1"> 
+            <button type="button" 
+                    class="btn btn-outline-info"
+                    @click="addComment">
+                    <i class="material-icons">add_box</i>
+            </button> 
+        </div>
+    </div>
+    <!-- Конец добавления комментария -->
+
+</div>
+{% endblock %}
+
+{% block js %}
+    {{ book_id | json_script:"book_id" }}
+
+    <script src="{% static 'js/book_detail.js' %}"></script>    
+{% endblock %}

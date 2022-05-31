@@ -1,0 +1,73 @@
+.book {
+    padding: 5px;
+    border: 2px solid teal;   
+    margin: 5px;
+    line-height: 32px;
+    height: auto;
+}
+
+.book-detail {
+    padding: 5px;
+    border: 2px solid Cyan;   
+    margin: 5px;
+    line-height: 32px;
+    height: auto;
+}
+
+.comments {
+    padding: 5px;
+    border: 2px solid DarkOrange;   
+    margin: 20px;
+    line-height: 32px;
+    height: auto;
+}
+
+.comment {
+    padding: 5px;
+    border: 2px solid green;   
+    margin: 5px;
+    line-height: 32px;
+    height: auto;
+}
+
+.add-comment {
+    padding: 5px;
+    border: 2px solid rebeccapurple;   
+    margin: 5px;
+    line-height: 32px;
+    height: auto;
+}
+
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;    
+    src: 
+      url(http://127.0.0.1:8000/static/fonts/MaterialIcons-Regular.woff2) format('woff2'),
+      url(http://127.0.0.1:8000/static/fonts//MaterialIcons-Regular.ttf) format('truetype');
+  }
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;  /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+  
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+  
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+  
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+  }

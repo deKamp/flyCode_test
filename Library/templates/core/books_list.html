@@ -1,0 +1,91 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+<div id="app">
+    <div v-for="book in booksList" :key="book.id" class="row book">
+        <div class="col s5">
+            <a :href="serverUrl+'/lib/book/'+book.id+'/'">[[ book.title ]]</a>
+        </div>
+        <div class="col s2">
+            [[ book.year ]]
+        </div>
+        <div class="col s5">
+            <div v-for="author in book.authors" class="row_author">[[ author ]]</div>
+        </div>
+
+    </div>
+
+  <!-- Пагинация -->
+    <div v-else class="row">
+        <div class="col s12 center-align">
+            <ul class="pagination">
+                <li class="waves-effect"
+                    :class="{disabled: (paginationCurrentPage === 1)}">
+                    <a href="" @click.click.stop.prevent="setFirstPage">
+                        <i class="material-icons">first_page</i>
+                    </a>
+                </li>
+                <li class="waves-effect"
+                    :class="{disabled: (paginationCurrentPage === 1)}">
+                    <a href="" @click.stop.prevent="setPreviosPage">
+                        <i class="material-icons">chevron_left</i>
+                    </a>
+                </li>
+
+                <li v-if="paginationCurrentPage >= pageDelta"
+                    class="waves-effect">
+                    <a href="" @click.stop.prevent="setFirstPage">1</a>
+                </li>
+                <li v-if="paginationCurrentPage > pageDelta"
+                    class="waves-effect disabled">
+                    <a href="">
+                        <i class="material-icons">more_horiz</i>
+                    </a>
+                </li>
+
+                <li v-if="(paginationCurrentPage-1) > 0"
+                    class="waves-effect">
+                        <a href="" @click.stop.prevent="setPreviosPage">[[ paginationCurrentPage-1 ]]</a>
+                </li>
+                <li class="waves-effect active blue darken-1"><a href="#!">[[ paginationCurrentPage ]]</a></li>
+                <li v-if="paginationCurrentPage < paginationTotalPage"
+                    class="waves-effect">
+                        <a href="" @click.stop.prevent="setNextPage">[[ paginationCurrentPage+1 ]]</a>
+                </li>
+
+                <li v-if="(paginationTotalPage-paginationCurrentPage) >= pageDelta"
+                    class="waves-effect disabled">
+                    <a href="">
+                        <i class="material-icons">more_horiz</i>
+                    </a>
+                </li>
+                <li v-if="(paginationTotalPage-paginationCurrentPage) >= pageDelta"
+                    class="waves-effect">
+                    <a href="" @click.stop.prevent="setLastPage">[[ paginationTotalPage ]]</a>
+                </li>
+
+                <li class="waves-effect"
+                    :class="{disabled: (paginationCurrentPage === paginationTotalPage)}">
+                    <a href="" @click.stop.prevent="setNextPage">
+                        <i class="material-icons">chevron_right</i>
+                    </a>
+                </li>
+                <li class="waves-effect"
+                    :class="{disabled: (paginationCurrentPage === paginationTotalPage)}">
+                    <a href="" @click.stop.prevent="setLastPage"><i class="material-icons">last_page</i></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Конец пагинации -->
+
+            
+</div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/books_list.js' %}"></script>    
+{% endblock %}

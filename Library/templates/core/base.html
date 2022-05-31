@@ -1,0 +1,47 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %} Привет мир! {% endblock %}</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/core.css' %}">
+    
+    
+  </head>
+
+  <body>
+
+    <nav>
+      <div class="nav-wrapper blue darken-1">
+        <a href="#" class="brand-logo">Logo</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          {% if menu_link_1 %}
+            <li><a href="{{ menu_link_1.link }}">{{ menu_link_1.name }}</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+          
+    
+    <main class="content container-fluid">
+    {% block content %}
+      <h1>Привет мир!</h1>
+    {% endblock %}
+
+    </main>
+    
+  </body>
+
+  <!--  JS  -->
+  <script src="{% static 'js/vue.js' %}"></script>
+  <script src="{% static 'js/axios.min.js' %}"></script>
+  <script src="{% static 'js/materialize.min.js' %}"></script>
+  {% block js %}
+      
+  {% endblock %}
+
+</html>
