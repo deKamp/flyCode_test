@@ -1,4 +1,3 @@
-from django.http import Http404
 from rest_framework import serializers
 
 from .models import Books, Authors, Comments
