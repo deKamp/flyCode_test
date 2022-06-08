@@ -1,9 +1,11 @@
+import json
+
 from django.test import TestCase, Client
 from django.urls import reverse
 from rest_framework import status
 
 from ..models import Authors, Books
-from ..serializers import AuthorsReadSerializer
+from ..serializers import AuthorsReadSerializer, AuthorsWriteSerializer
 
 client = Client()
 
@@ -37,8 +39,8 @@ class GetSingleAuthorTest(TestCase):
         self.author_2 = Authors.objects.create(surname='Иванов', name='Иван', patronymic='Иванович', year=1980)
 
     def test_get_single_author(self):
-        response = client.get(reverse('get_del_put_single_author', kwargs={'pk': self.author_1.pk}))
-        author = Authors.objects.get(pk=self.author_1.pk)
+        response = client.get(reverse('get_del_put_single_author', kwargs={'pk': self.author_2.pk}))
+        author = Authors.objects.get(pk=self.author_2.pk)
         serializer = AuthorsReadSerializer(author)
         self.assertEqual(response.data, serializer.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -47,4 +49,42 @@ class GetSingleAuthorTest(TestCase):
         response = client.get(
             reverse('get_del_put_single_author', kwargs={'pk': 30}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        
+        
+class PostNewAuthorTest(TestCase):
+    def setUp(self):
+        self.valid_author = {'surname': 'Шушпанов', 'name': 'Аркадий', 'patronymic': 'Николаевич', 'year': 1976,
+                             'books': []}
+        self.invalid_author = {'surname': '', 'name': 'Аркадий', 'patronymic': 'Николаевич', 'year': 1976,
+                               'books': []}
+
+    def test_create_valid_author(self):
+        response = client.post(reverse('get_post_all_authors'), data=json.dumps(self.valid_author),
+                               content_type='application/json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_create_invalid_author(self):
+        response = client.post(reverse('get_post_all_authors'), data=json.dumps(self.invalid_author),
+                               content_type='application/json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+
+class UpdateAuthorTest(TestCase):
+    def setUp(self):
+        self.author_1 = Authors.objects.create(surname='Петров', name='Пётр', patronymic='Петрович', year=1976)
+        self.author_2 = Authors.objects.create(surname='Иванов', name='Иван', patronymic='Иванович', year=1980)
+
+        self.valid_author = {'surname': 'Шушпанов', 'name': 'Аркадий', 'patronymic': 'Николаевич', 'year': 1976,
+                             'books': []}
+        self.invalid_author = {'surname': '', 'name': 'Аркадий', 'patronymic': 'Николаевич', 'year': 1976,
+                               'books': []}
+
+    def test_update_valid_author(self):
+        response = client.put(reverse('get_del_put_single_author', kwargs={'pk': self.author_1.pk}),
+                              data=json.dumps(self.valid_author), content_type='application/json')
+
+        self.valid_author['id'] = self.author_1.pk
+        serializer = AuthorsWriteSerializer(self.valid_author)
+        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 

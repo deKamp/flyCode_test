@@ -2,7 +2,7 @@ from django.http import Http404
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import DetailView
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
@@ -220,7 +220,7 @@ class AutorsAPIList(generics.ListCreateAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class AuthorAPI(generics.RetrieveUpdateDestroyAPIView):
