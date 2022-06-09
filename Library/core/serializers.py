@@ -103,6 +103,8 @@ class CommentsSerializer(serializers.ModelSerializer):
     Используется при выводе информации о книге
     GET /lib/api/books/
     """
+    time_creation = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S')
+
     class Meta:
         model = Comments
         fields = ('id', 'time_creation', 'content')
