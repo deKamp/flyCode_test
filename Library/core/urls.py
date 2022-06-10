@@ -4,7 +4,7 @@ from .views import BooksAPIList, BookAPI, AuthorAPI, AutorsAPIList, CommentsAPIL
     BookDetailView
 
 urlpatterns = [
-    path('api/book/<int:pk>/', BookAPI.as_view()),
+    path('api/book/<int:pk>/', BookAPI.as_view(), name='get_del_put_book'),
     path('api/books/', BooksAPIList.as_view(), name='get_post_books'),
     path('api/author/<int:pk>/', AuthorAPI.as_view(), name='get_del_put_single_author'),
     path('api/authors/', AutorsAPIList.as_view(), name='get_post_all_authors'),
