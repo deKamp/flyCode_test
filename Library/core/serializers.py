@@ -79,6 +79,7 @@ class CommentsWriteSerializer(serializers.ModelSerializer):
     Используется при записи комментария
     POST /lib/api/comments/
     """
+    time_creation = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S', required=False)
 
     class Meta:
         model = Comments
@@ -92,6 +93,7 @@ class CommentsListSerializer(serializers.ModelSerializer):
     GET /lib/api/comment/<pk>/
     """
     book = BooksReadSerializer(many=False)
+    time_creation = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S')
 
     class Meta:
         model = Comments
